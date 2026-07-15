@@ -359,6 +359,11 @@ section{padding:140px 0}
 .lform-box textarea{resize:vertical}
 .lform-submit{margin-top:8px;width:100%;justify-content:center;border:0;cursor:pointer}
 .lform-note{font-size:11px;color:var(--mut);letter-spacing:.02em;text-transform:none;line-height:1.5}
+.lform-status{font-size:13px;line-height:1.5;text-transform:none;letter-spacing:.01em}
+.lform-status:empty{display:none}
+.lform-status.ok{color:#1a7f4b}
+.lform-status.err{color:#c0392b}
+.lform-status a{color:inherit;text-decoration:underline}
 @media(max-width:820px){.lform-grid{grid-template-columns:1fr;gap:38px}}
 .btn{display:inline-flex;align-items:center;gap:12px;padding:18px 42px;font-size:12px;
   letter-spacing:.2em;text-transform:uppercase;transition:.3s;cursor:pointer;border:1px solid transparent;margin-top:42px}
@@ -860,16 +865,42 @@ footer{padding:46px 0;background:var(--dark);color:rgba(255,255,255,.72);font-si
         <h2>Обсудим <em>ваш проект</em></h2>
         <p>Оставьте контакты — перезвоним в течение рабочего дня, ответим на вопросы и поможем рассчитать ваш дом под ключ.</p>
       </div>
-      <form class="lform-box reveal" action="https://formsubmit.co/kayra-group@mail.ru" method="POST">
-        <input type="hidden" name="_subject" value="Новая заявка с сайта KAYRA STROY">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
+      <form class="lform-box reveal" id="leadForm" novalidate>
         <label>Имя<input type="text" name="Имя" required placeholder="Как к вам обращаться"></label>
         <label>Телефон<input type="tel" name="Телефон" required placeholder="+7 ___ ___-__-__"></label>
         <label>Комментарий<textarea name="Комментарий" rows="3" placeholder="Коротко о проекте (необязательно)"></textarea></label>
         <button type="submit" class="btn btn-acc lform-submit">Отправить заявку</button>
+        <div class="lform-status" id="leadStatus" aria-live="polite"></div>
         <div class="lform-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</div>
       </form>
+      <script>
+      (function(){
+        var f=document.getElementById('leadForm'), st=document.getElementById('leadStatus');
+        if(!f) return;
+        f.addEventListener('submit', function(e){
+          e.preventDefault();
+          var btn=f.querySelector('.lform-submit');
+          var name=(f.querySelector('[name="Имя"]').value||'').trim();
+          var phone=(f.querySelector('[name="Телефон"]').value||'').trim();
+          if(!name||!phone){ st.className='lform-status err'; st.textContent='Пожалуйста, заполните имя и телефон.'; return; }
+          btn.disabled=true; var old=btn.textContent; btn.textContent='Отправляем…';
+          st.className='lform-status'; st.textContent='';
+          var data={_subject:'Новая заявка с сайта KAYRA STROY',_captcha:'false',_template:'table',
+                    'Имя':name,'Телефон':phone,'Комментарий':(f.querySelector('[name="Комментарий"]').value||'').trim()};
+          fetch('https://formsubmit.co/ajax/kayra-group@mail.ru',{
+            method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+            body:JSON.stringify(data)
+          }).then(function(r){return r.json();}).then(function(){
+            f.reset(); st.className='lform-status ok';
+            st.textContent='Спасибо! Заявка отправлена — перезвоним в течение рабочего дня.';
+            if(window.ym) ym(110737036,'reachGoal','lead');
+          }).catch(function(){
+            st.className='lform-status err';
+            st.innerHTML='Не удалось отправить. Позвоните нам: <a href="tel:+79286252275">+7 928 625-22-75</a>';
+          }).finally(function(){ btn.disabled=false; btn.textContent=old; });
+        });
+      })();
+      </script>
     </div>
   </div>
 </section>
@@ -914,7 +945,7 @@ footer{padding:46px 0;background:var(--dark);color:rgba(255,255,255,.72);font-si
 <span>Мы на Яндекс&nbsp;Дзене</span></a>
     </div>
     <div class="lgeo-map reveal">
-      <iframe src="https://yandex.ru/map-widget/v1/?ll=37.249958%2C55.788290&z=16&pt=37.249958,55.788290,pm2rdm" allowfullscreen="true" loading="lazy" title="Карта — БЦ Рига Лэнд"></iframe>
+      <iframe src="https://yandex.ru/map-widget/v1/?ll=37.240495%2C55.785746&z=17&pt=37.240495,55.785746,pm2rdm" allowfullscreen="true" loading="lazy" title="Карта — БЦ Рига Лэнд"></iframe>
     </div>
   </div>
 </section>
