@@ -865,7 +865,10 @@ footer{padding:46px 0;background:var(--dark);color:rgba(255,255,255,.72);font-si
         <h2>Обсудим <em>ваш проект</em></h2>
         <p>Оставьте контакты — перезвоним в течение рабочего дня, ответим на вопросы и поможем рассчитать ваш дом под ключ.</p>
       </div>
-      <form class="lform-box reveal" id="leadForm" novalidate>
+      <form class="lform-box reveal" id="leadForm" action="https://formsubmit.co/kayra-group@mail.ru" method="POST" target="lead_iframe">
+        <input type="hidden" name="_subject" value="Новая заявка с сайта KAYRA STROY">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
         <label>Имя<input type="text" name="Имя" required placeholder="Как к вам обращаться"></label>
         <label>Телефон<input type="tel" name="Телефон" required placeholder="+7 ___ ___-__-__"></label>
         <label>Комментарий<textarea name="Комментарий" rows="3" placeholder="Коротко о проекте (необязательно)"></textarea></label>
@@ -873,31 +876,35 @@ footer{padding:46px 0;background:var(--dark);color:rgba(255,255,255,.72);font-si
         <div class="lform-status" id="leadStatus" aria-live="polite"></div>
         <div class="lform-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</div>
       </form>
+      <iframe name="lead_iframe" style="position:absolute;width:0;height:0;border:0;left:-9999px" title="submit" aria-hidden="true"></iframe>
       <script>
       (function(){
         var f=document.getElementById('leadForm'), st=document.getElementById('leadStatus');
-        if(!f) return;
-        f.addEventListener('submit', function(e){
-          e.preventDefault();
-          var btn=f.querySelector('.lform-submit');
-          var name=(f.querySelector('[name="Имя"]').value||'').trim();
-          var phone=(f.querySelector('[name="Телефон"]').value||'').trim();
-          if(!name||!phone){ st.className='lform-status err'; st.textContent='Пожалуйста, заполните имя и телефон.'; return; }
-          btn.disabled=true; var old=btn.textContent; btn.textContent='Отправляем…';
+        var ifr=document.querySelector('iframe[name="lead_iframe"]');
+        if(!f||!ifr) return;
+        var btn=f.querySelector('.lform-submit'), oldTxt=btn.textContent, sending=false, done=false;
+        f.addEventListener('submit', function(){
+          // native validation (required) runs first; only fires here if valid
+          sending=true; done=false; btn.disabled=true; btn.textContent='Отправляем…';
           st.className='lform-status'; st.textContent='';
-          var data={_subject:'Новая заявка с сайта KAYRA STROY',_captcha:'false',_template:'table',
-                    'Имя':name,'Телефон':phone,'Комментарий':(f.querySelector('[name="Комментарий"]').value||'').trim()};
-          fetch('https://formsubmit.co/ajax/kayra-group@mail.ru',{
-            method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-            body:JSON.stringify(data)
-          }).then(function(r){return r.json();}).then(function(){
-            f.reset(); st.className='lform-status ok';
-            st.textContent='Спасибо! Заявка отправлена — перезвоним в течение рабочего дня.';
-            if(window.ym) ym(110737036,'reachGoal','lead');
-          }).catch(function(){
-            st.className='lform-status err';
-            st.innerHTML='Не удалось отправить. Позвоните нам: <a href="tel:+79286252275">+7 928 625-22-75</a>';
-          }).finally(function(){ btn.disabled=false; btn.textContent=old; });
+        });
+        ifr.addEventListener('load', function(){
+          if(!sending) return;            // ignore the initial blank load
+          sending=false; done=true;
+          f.reset(); btn.disabled=false; btn.textContent=oldTxt;
+          st.className='lform-status ok';
+          st.textContent='Спасибо! Заявка отправлена — перезвоним в течение рабочего дня.';
+          if(window.ym) ym(110737036,'reachGoal','lead');
+        });
+        // safety net: if the frame never loads (network blocked), show phone fallback
+        f.addEventListener('submit', function(){
+          setTimeout(function(){
+            if(sending && !done){
+              sending=false; btn.disabled=false; btn.textContent=oldTxt;
+              st.className='lform-status err';
+              st.innerHTML='Не удалось отправить. Позвоните нам: <a href="tel:+79286252275">+7 928 625-22-75</a>';
+            }
+          }, 12000);
         });
       })();
       </script>
