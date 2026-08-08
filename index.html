@@ -54,11 +54,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   padding:26px 46px;transition:.45s;border-bottom:1px solid transparent}
 nav.scrolled{background:rgba(243,239,232,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:16px 46px}
 .nav-left{display:flex;align-items:center;gap:26px}
-.nav-sites{display:flex;align-items:center;gap:10px}
-.nav-sites a{font-family:'Gilroy','Montserrat',sans-serif;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#fff;text-decoration:none;padding:7px 14px;border:1px solid rgba(255,255,255,.42);border-radius:100px;transition:.35s;white-space:nowrap}
-.nav-sites a:hover{background:var(--acc2);border-color:var(--acc2);color:#fff}
-nav.scrolled .nav-sites a{color:var(--ink);border-color:var(--line)}
-nav.scrolled .nav-sites a:hover{background:var(--acc);border-color:var(--acc);color:#fff}
+.nav-switch{position:relative}
+.nav-switch-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Gilroy','Montserrat',sans-serif;font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.4);border-radius:100px;padding:8px 15px;cursor:pointer;transition:.35s;white-space:nowrap}
+.nav-switch-btn:hover{border-color:rgba(255,255,255,.95)}
+.nav-switch-chev{transition:.35s}
+.nav-switch.open .nav-switch-chev{transform:rotate(180deg)}
+nav.scrolled .nav-switch-btn{color:var(--ink);border-color:var(--line)}
+nav.scrolled .nav-switch-btn:hover{border-color:var(--acc)}
+.nav-switch-menu{position:absolute;top:calc(100% + 14px);left:0;min-width:262px;background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 26px 64px rgba(20,16,10,.24);padding:12px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:.3s;z-index:130}
+.nav-switch:hover .nav-switch-menu,.nav-switch.open .nav-switch-menu{opacity:1;visibility:visible;transform:none}
+.nav-switch-cap{display:block;font-family:'Gilroy','Montserrat',sans-serif;font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--mut);padding:6px 12px 12px}
+.nav-switch-menu a{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;transition:.25s}
+.nav-switch-menu a:hover{background:rgba(20,16,10,.05)}
+.nav-switch-menu a.cur{background:rgba(160,120,60,.08)}
+.nav-switch-menu a b{font-family:'Gilroy','Montserrat',sans-serif;font-size:13px;letter-spacing:.05em;font-weight:600;display:flex;align-items:center;gap:6px}
+.nav-switch-menu a b em{font-style:normal;color:var(--acc);font-size:12px}
+.nav-switch-menu a span{font-size:11px;color:var(--mut);letter-spacing:.01em;line-height:1.4}
 .nav-sites-m{display:none}
 .nav-phone{color:#fff;font-family:'Gilroy','Montserrat',sans-serif;font-size:15px;font-weight:600;letter-spacing:.02em;text-decoration:none;white-space:nowrap;transition:.45s;position:relative;padding-left:22px}
 .nav-phone::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:15px;height:15px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .7-.2 1z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .7-.2 1z'/%3E%3C/svg%3E") center/contain no-repeat}
@@ -98,8 +109,9 @@ nav.open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)
   .brand{font-size:21px;letter-spacing:.2em;white-space:nowrap}
   .brand small{font-size:8px;letter-spacing:.34em}
   .nav-burger{display:flex}
-  .nav-sites{display:none}
-  .nav-sites-m{display:flex;flex-direction:column;gap:16px;width:100%;order:-1;padding-bottom:26px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .nav-switch{display:none}
+  .nav-sites-m{display:flex;flex-direction:column;gap:14px;width:100%;order:-1;padding-bottom:26px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .nav-sites-m-cap{font-family:'Gilroy','Montserrat',sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin-bottom:2px}
   .nav-sites-m a{font-family:'Gilroy','Montserrat',sans-serif;font-size:13px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:13px 18px;border:1px solid var(--line);border-radius:100px;text-align:center;transition:.3s}
   .nav-sites-m a:hover{background:var(--acc);border-color:var(--acc);color:#fff}
   .nav-phone{display:none}
@@ -628,16 +640,26 @@ footer{padding:46px 0;background:var(--dark);color:rgba(255,255,255,.72);font-si
 <rect x="821.387" y="636.139" width="804.801" height="86.8612" fill="currentColor"/>
 </svg>
 </a>
-    <div class="nav-sites">
-      <a href="https://mrdorn.ru/" target="_blank" rel="noopener">MRDORN</a>
-      <a href="https://kayragroup.ru/" target="_blank" rel="noopener">KAYRA&nbsp;GROUP</a>
+    <div class="nav-switch" id="navSwitch">
+      <button class="nav-switch-btn" id="navSwitchBtn" type="button" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Наши сайты</span>
+        <svg class="nav-switch-chev" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="nav-switch-menu" role="menu">
+        <span class="nav-switch-cap">Проекты компании KAYRA</span>
+        <a href="https://kayra-stroy.ru/" class="cur" role="menuitem"><b>KAYRA СТРОЙ</b><span>Строительство домов под ключ · вы здесь</span></a>
+        <a href="https://kayragroup.ru/" target="_blank" rel="noopener" role="menuitem"><b>KAYRA GROUP <em>↗</em></b><span>Группа компаний</span></a>
+        <a href="https://mrdorn.ru/" target="_blank" rel="noopener" role="menuitem"><b>MRDORN <em>↗</em></b><span>Роберт Дорн — личный сайт</span></a>
+      </div>
     </div>
   </div>
   <button class="nav-burger" id="navBurger" aria-label="Меню"><span></span><span></span><span></span></button>
   <div class="nav-menu" id="navMenu">
   <div class="nav-sites-m">
-    <a href="https://mrdorn.ru/" target="_blank" rel="noopener">MRDORN.RU</a>
-    <a href="https://kayragroup.ru/" target="_blank" rel="noopener">KAYRAGROUP.RU</a>
+    <div class="nav-sites-m-cap">Проекты компании KAYRA</div>
+    <a href="https://kayragroup.ru/" target="_blank" rel="noopener">KAYRA GROUP ↗</a>
+    <a href="https://mrdorn.ru/" target="_blank" rel="noopener">MRDORN ↗</a>
   </div>
   <div class="navlinks">
     <a href="#intro">О компании</a>
@@ -1002,6 +1024,17 @@ function closeMenu(){nav.classList.remove('open');document.body.classList.remove
 if(burger){burger.addEventListener('click',function(){
   var open=nav.classList.toggle('open');document.body.classList.toggle('menu-open',open);});}
 if(scrim){scrim.addEventListener('click',closeMenu);}
+var nsw=document.getElementById('navSwitch'),nswb=document.getElementById('navSwitchBtn');
+if(nsw&&nswb){
+  nswb.addEventListener('click',function(e){
+    e.stopPropagation();
+    var op=nsw.classList.toggle('open');
+    nswb.setAttribute('aria-expanded',op?'true':'false');
+  });
+  document.addEventListener('click',function(e){
+    if(!nsw.contains(e.target)){nsw.classList.remove('open');nswb.setAttribute('aria-expanded','false');}
+  });
+}
 document.querySelectorAll('#navMenu a').forEach(function(a){a.addEventListener('click',closeMenu);});
 addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
 addEventListener('scroll',function(){
