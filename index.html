@@ -680,7 +680,7 @@ footer{padding:46px 0;background:var(--dark);color:rgba(255,255,255,.72);font-si
 <div id="navScrim"></div>
 
 <header class="lhero" id="lhero">
-  <div class="lhero-bg"><video class="lhero-video" autoplay muted loop playsinline preload="metadata" poster="img/f44d13f84fbe5bd2.jpg"><source src="hero.mp4" type="video/mp4"></video></div>
+  <div class="lhero-bg"><video class="lhero-video" muted loop playsinline preload="none" poster="img/f44d13f84fbe5bd2.jpg"><source data-src="hero.mp4" type="video/mp4"></video></div>
   <div class="lhero-inner wrap">
     <h1>Дома, которые<br><em>остаются</em> в семье</h1>
     <p class="sub">Премиальное загородное строительство под ключ — от первого эскиза до передачи ключей. Один партнёр вместо десятков подрядчиков.</p>
@@ -1017,7 +1017,15 @@ footer{padding:46px 0;background:var(--dark);color:rgba(255,255,255,.72);font-si
 </div></footer>
 
 <script>
-window.addEventListener('load',function(){setTimeout(function(){document.getElementById('loader').classList.add('done');},700);});
+(function(){var ld=document.getElementById('loader');if(!ld)return;var hid=false;function hide(){if(hid)return;hid=true;ld.classList.add('done');}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(hide,450);});}else{setTimeout(hide,450);}
+setTimeout(hide,2200);})();
+(function(){var v=document.querySelector('.lhero-video');if(!v)return;var s=v.querySelector('source[data-src]');if(!s)return;
+var c=navigator.connection||{};var et=c.effectiveType||'';
+var skip=c.saveData||/2g/.test(et)||innerWidth<760;
+if(skip)return; // mobile / slow: poster only, no 8MB video
+function go(){if(s.src)return;s.src=s.getAttribute('data-src');v.load();var p=v.play();if(p&&p.catch)p.catch(function(){});}
+if('requestIdleCallback' in window){requestIdleCallback(go,{timeout:2500});}else{setTimeout(go,1400);}})();
 var nav=document.getElementById('nav'),prog=document.getElementById('prog');
 var burger=document.getElementById('navBurger'),scrim=document.getElementById('navScrim');
 function closeMenu(){nav.classList.remove('open');document.body.classList.remove('menu-open');}
