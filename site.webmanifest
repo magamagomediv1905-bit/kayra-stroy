@@ -1,0 +1,14 @@
+{
+  "name": "KAYRA STROY — премиальные дома под ключ",
+  "short_name": "KAYRA STROY",
+  "description": "Строительство премиальных домов и резиденций под ключ в Москве и Подмосковье.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14100a",
+  "theme_color": "#14100a",
+  "icons": [
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ]
+}
