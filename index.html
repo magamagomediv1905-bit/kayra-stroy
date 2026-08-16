@@ -942,10 +942,11 @@ footer{padding:46px 0;background:var(--dark);color:rgba(255,255,255,.72);font-si
         <h2>Обсудим <em>ваш проект</em></h2>
         <p>Оставьте контакты — перезвоним в течение рабочего дня, ответим на вопросы и поможем рассчитать ваш дом под ключ.</p>
       </div>
-      <form class="lform-box reveal" id="leadForm" action="https://formsubmit.co/kayra-group@mail.ru" method="POST" target="lead_iframe">
-        <input type="hidden" name="_subject" value="Новая заявка с сайта KAYRA STROY">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
+      <form class="lform-box reveal" id="leadForm" action="https://api.web3forms.com/submit" method="POST" target="lead_iframe">
+        <input type="hidden" name="access_key" value="b41e54d6-60bf-47e3-875a-86925a56cb24">
+        <input type="hidden" name="subject" value="Новая заявка с сайта KAYRA STROY">
+        <input type="hidden" name="from_name" value="KAYRA STROY — сайт">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
         <label>Имя<input type="text" name="Имя" required placeholder="Как к вам обращаться"></label>
         <label>Телефон<input type="tel" name="Телефон" required placeholder="+7 ___ ___-__-__"></label>
         <label>Комментарий<textarea name="Комментарий" rows="3" placeholder="Коротко о проекте (необязательно)"></textarea></label>
